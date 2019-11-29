@@ -9,23 +9,18 @@ import java.net.URLConnection;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.elias.enums.ResultEnum;
-import com.elias.exception.EliasException;
-
 public class FileUtil {
 	// 初始化创建指定的保存路径
-	public static void initSavePath(String filePath) throws EliasException {
+	public static void initSavePath(String filePath) throws Exception {
 		if (StringUtils.isEmpty(filePath)) {
-			throw new EliasException(ResultEnum.PARAM_ERROR.getCode(),
-					ResultEnum.PARAM_ERROR.getMessage() + ":目标地址是空值！");
+			throw new Exception("目标地址是空值！");
 		}
 
 		// 如果是windows系统路径，判断盘符是否存在
 		if (filePath.indexOf(":") == 1) {
 			File disk = new File(filePath.substring(0, 3));
 			if (!disk.exists()) {
-				throw new EliasException(ResultEnum.PARAM_ERROR.getCode(),
-						ResultEnum.PARAM_ERROR.getMessage() + ":目标盘符不存在(" + filePath.substring(0, 3) + ")");
+				throw new Exception("目标盘符不存在(" + filePath.substring(0, 3) + ")");
 			}
 		}
 		File file = new File(filePath);
@@ -33,8 +28,7 @@ public class FileUtil {
 		if (file.exists() && file.isDirectory()) {// 如果已存在文件夹，直接结束
 			return;
 		} else if (file.exists() && !file.isDirectory()) {// 如果已存在，但不是文件夹，异常
-			throw new EliasException(ResultEnum.PARAM_ERROR.getCode(),
-					ResultEnum.PARAM_ERROR.getMessage() + ":目标地址已存在且不是文件夹(" + filePath + ")");
+			throw new Exception("目标地址已存在且不是文件夹(" + filePath + ")");
 		} else if (!file.exists()) {// 如果不存在
 			initSavePath(file.getParent());// 先创建父目录
 			file.mkdir();// 再创建文件夹

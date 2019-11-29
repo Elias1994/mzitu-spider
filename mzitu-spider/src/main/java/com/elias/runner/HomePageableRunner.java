@@ -15,6 +15,7 @@ import com.elias.entity.ImageInfo;
 import com.elias.spider.DownloadSpider;
 import com.elias.spider.HomePageableSpider;
 import com.elias.spider.ImageGroupSpider;
+import com.elias.utils.FileUtil;
 
 /**
  * 系统启动后自动爬取分页图组
@@ -24,6 +25,8 @@ import com.elias.spider.ImageGroupSpider;
  */
 @Component
 public class HomePageableRunner implements CommandLineRunner {
+	@Value("${image.save.path}")
+	private String save_path = "D:/mzitu/";
 	@Value("${spider.max.page}")
 	private Integer max_page = 236;
 	@Value("${spider.min.page}")
@@ -48,6 +51,15 @@ public class HomePageableRunner implements CommandLineRunner {
 			return;
 		}
 		log.info("HomePageableRunner begin");
+
+		// 初始化保存图片的文件夹
+		try {
+			FileUtil.initSavePath(save_path);
+		} catch (Exception e1) {
+			log.error("HomePageableRunner 初始化文件夹失败：{} ", e1.getMessage());
+			return;
+		}
+
 		// 初始化线程池
 		int poolSize = pool_size < 1 ? 10 : pool_size;
 		ExecutorService executorService = Executors.newFixedThreadPool(poolSize);

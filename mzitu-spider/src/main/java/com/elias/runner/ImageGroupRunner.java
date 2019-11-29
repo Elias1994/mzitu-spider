@@ -14,9 +14,12 @@ import org.springframework.stereotype.Component;
 import com.elias.entity.ImageInfo;
 import com.elias.spider.DownloadSpider;
 import com.elias.spider.ImageGroupSpider;
+import com.elias.utils.FileUtil;
 
 @Component
 public class ImageGroupRunner implements CommandLineRunner {
+	@Value("${image.save.path}")
+	private String save_path = "D:/mzitu/";
 	@Value("${mzitu.baseurl}")
 	private String base_url = "https://www.mzitu.com/";
 	@Value("${image.group.spider}")
@@ -40,6 +43,15 @@ public class ImageGroupRunner implements CommandLineRunner {
 			log.error("非法的index:{}", index);
 			return;
 		}
+
+		// 初始化保存图片的文件夹
+		try {
+			FileUtil.initSavePath(save_path);
+		} catch (Exception e1) {
+			log.error("ImageGroupRunner 初始化文件夹失败：{} ", e1.getMessage());
+			return;
+		}
+
 		// 获取图片信息
 		List<ImageInfo> list2 = igSpider.getImageUrls(index);
 

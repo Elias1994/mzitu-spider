@@ -41,7 +41,12 @@ public class DownloadSpider {
 		String imageSavePath = save_path.concat(info.getGroup().concat("/")).concat(info.getIndex() + "-")
 				.concat(info.getTitle().concat("/"));
 		// 创建文件夹
-		FileUtil.initSavePath(imageSavePath);
+		try {
+			FileUtil.initSavePath(imageSavePath);
+		} catch (Exception e1) {
+			log.error("downloadImage 初始化文件夹失败：{} ", e1.getMessage());
+			return;
+		}
 
 		// 图片路径
 		String imagePath = imageSavePath.concat(info.getPage().toString()).concat(imageSuffix);

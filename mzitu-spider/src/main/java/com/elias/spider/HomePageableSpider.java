@@ -16,13 +16,15 @@ import org.springframework.stereotype.Component;
 import com.elias.utils.ToolsUtil;
 
 /**
- *	根据分页地址获取图组地址
+ * 根据分页地址获取图组地址
+ * 
  * @author Elias
  * @date 2019年11月28日
  */
 @Component
 public class HomePageableSpider {
 	private Logger log = LoggerFactory.getLogger(HomePageableSpider.class);
+
 	@Value("${spider.max.error.times}")
 	private int max_error_times = 5;
 	@Value("${mzitu.pageable.homeurl}")

@@ -28,5 +28,4 @@ public class ImageInfo {
 	// 图片页码
 	@NonNull
 	private Integer page;
-
 }

@@ -51,6 +51,7 @@ public class DownloadSpider {
 		// 图片路径
 		String imagePath = imageSavePath.concat(info.getPage().toString()).concat(imageSuffix);
 
+		// 出错次数
 		int errorTimes = 0;
 		do {
 			try {
@@ -61,6 +62,7 @@ public class DownloadSpider {
 				errorTimes++;
 				log.error("下载图片失败5秒后重试", e);
 				try {
+					// 高频率访问网站可能导致被反爬，暂停5秒
 					Thread.sleep(5000);
 				} catch (InterruptedException ie) {
 					log.error(ie.getMessage());

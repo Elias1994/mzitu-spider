@@ -26,6 +26,7 @@ import com.elias.utils.ToolsUtil;
 @Component
 public class ImageGroupSpider {
 	private Logger log = LoggerFactory.getLogger(HomePageableSpider.class);
+
 	@Value("${spider.max.error.times}")
 	private int max_error_times = 5;
 	@Value("${mzitu.baseurl}")
@@ -37,13 +38,16 @@ public class ImageGroupSpider {
 		// 根据图组index,拼接图组地址
 		String homeUrl = base_url.concat(index.toString());
 
+		// 获取组图的标题和类别
 		String desc = getTitle(homeUrl);
 		String[] split = desc.split(" - ");
 		String title = split[0];
 		String group = split[1];
 
+		// 组图的最大页码也就是图片张数
 		int maxPage = getMaxPage(homeUrl);
 
+		// 创建图片信息存入集合
 		for (Integer page = 1; page <= maxPage; page++) {
 			String url = getImageUrl(homeUrl.concat("/").concat(page.toString()), title);
 			ImageInfo imageInfo = new ImageInfo(url, index, group, title, page);

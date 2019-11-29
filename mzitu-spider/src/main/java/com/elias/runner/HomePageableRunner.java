@@ -37,12 +37,14 @@ public class HomePageableRunner implements CommandLineRunner {
 	private boolean isSpider = false;
 	@Value("${spider.threadpool.size}")
 	private Integer pool_size = 10;
+	
 	@Autowired
 	private HomePageableSpider hpSpider;
 	@Autowired
 	private ImageGroupSpider igSpider;
 	@Autowired
 	private DownloadSpider dlSpider;
+	
 	private Logger log = LoggerFactory.getLogger(HomePageableRunner.class);
 
 	@Override

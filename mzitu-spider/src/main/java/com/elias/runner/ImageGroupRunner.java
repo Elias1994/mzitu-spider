@@ -16,6 +16,12 @@ import com.elias.spider.DownloadSpider;
 import com.elias.spider.ImageGroupSpider;
 import com.elias.utils.FileUtil;
 
+/**
+ * 启动时自动运行该类的run方法，爬取配置指定index的组图
+ * 
+ * @author Elias
+ * @date 2019年11月29日
+ */
 @Component
 public class ImageGroupRunner implements CommandLineRunner {
 	@Value("${image.save.path}")
@@ -28,10 +34,12 @@ public class ImageGroupRunner implements CommandLineRunner {
 	private Integer index = 10;
 	@Value("${spider.threadpool.size}")
 	private Integer pool_size = 10;
+
 	@Autowired
 	private ImageGroupSpider igSpider;
 	@Autowired
 	private DownloadSpider dlSpider;
+
 	private Logger log = LoggerFactory.getLogger(ImageGroupRunner.class);
 
 	@Override

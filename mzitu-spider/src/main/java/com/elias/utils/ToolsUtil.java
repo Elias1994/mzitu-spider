@@ -12,6 +12,8 @@ import java.io.OutputStream;
 import java.util.Random;
 
 /**
+ * 一个简单的工具类
+ * 
  * @author Elias
  * @date 2019年11月27日
  */

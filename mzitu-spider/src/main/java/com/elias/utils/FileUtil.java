@@ -9,6 +9,12 @@ import java.net.URLConnection;
 
 import org.apache.commons.lang3.StringUtils;
 
+/**
+ * 一个简单的文件工具类
+ * 
+ * @author Elias
+ * @date 2019年11月29日
+ */
 public class FileUtil {
 	// 初始化创建指定的保存路径
 	public static void initSavePath(String filePath) throws Exception {
@@ -30,11 +36,21 @@ public class FileUtil {
 		} else if (file.exists() && !file.isDirectory()) {// 如果已存在，但不是文件夹，异常
 			throw new Exception("目标地址已存在且不是文件夹(" + filePath + ")");
 		} else if (!file.exists()) {// 如果不存在
-			initSavePath(file.getParent());// 先创建父目录
-			file.mkdir();// 再创建文件夹
+			// 先创建父目录
+			initSavePath(file.getParent());
+			// 再创建文件夹
+			file.mkdir();
 		}
 	}
 
+	/**
+	 * 下载图片
+	 * 
+	 * @param imageUrl  图片下载地址
+	 * @param imagePath 图片保存的系统路径
+	 * @param referer   图片所在的原网页
+	 * @throws Exception
+	 */
 	public static void download(String imageUrl, String imagePath, String referer) throws Exception {
 		// 构造URL
 		URL url = new URL(imageUrl);
@@ -43,6 +59,7 @@ public class FileUtil {
 		// 设置请求超时为5s
 		con.setConnectTimeout(20 * 1000);
 		con.setReadTimeout(20 * 1000);
+		// 添加一些请求头参数，避免被反爬
 		con.setRequestProperty("User-Agent", ToolsUtil.getUserAgent());
 		con.setRequestProperty("Referer", referer);
 		// 输入流

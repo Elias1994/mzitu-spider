@@ -76,6 +76,8 @@ public class ImageGroupRunner implements CommandLineRunner {
 				});
 
 			}
+		} else {
+			log.error("index为{}的图组获取图片信息失败！", index);
 		}
 	}
 

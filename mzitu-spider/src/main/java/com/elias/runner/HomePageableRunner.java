@@ -37,14 +37,14 @@ public class HomePageableRunner implements CommandLineRunner {
 	private boolean isSpider = false;
 	@Value("${spider.threadpool.size}")
 	private Integer pool_size = 10;
-	
+
 	@Autowired
 	private HomePageableSpider hpSpider;
 	@Autowired
 	private ImageGroupSpider igSpider;
 	@Autowired
 	private DownloadSpider dlSpider;
-	
+
 	private Logger log = LoggerFactory.getLogger(HomePageableRunner.class);
 
 	@Override
@@ -81,18 +81,22 @@ public class HomePageableRunner implements CommandLineRunner {
 					// 获取图组的图片信息列表
 					List<ImageInfo> list2 = igSpider.getImageUrls(index);
 					// 启动线程爬取图组，下载图片
-					executorService.execute(new Runnable() {
-						@Override
-						public void run() {
-							// 下载图片
-							if (list2 != null && list2.size() > 0) {
-								for (ImageInfo info : list2) {
+					if (list2 != null && list2.size() > 0) {
+						for (ImageInfo info : list2) {
+							executorService.execute(new Runnable() {
+								@Override
+								public void run() {
+									// 下载图片
 									dlSpider.downloadImage(info);
 								}
-							}
+							});
 						}
-					});
+					} else {
+						log.error("index为{}的图组获取图片信息失败！", index);
+					}
 				}
+			} else {
+				log.error("第{}页获取图组列表失败！", minPage);
 			}
 		}
 	}

@@ -50,8 +50,13 @@ public class ImageGroupSpider {
 		// 创建图片信息存入集合
 		for (Integer page = 1; page <= maxPage; page++) {
 			String url = getImageUrl(homeUrl.concat("/").concat(page.toString()), title);
-			ImageInfo imageInfo = new ImageInfo(url, index, group, title, page);
-			list.add(imageInfo);
+
+			try {
+				ImageInfo imageInfo = new ImageInfo(url, index, group, title, page);
+				list.add(imageInfo);
+			} catch (Exception e) {
+				log.error("创建图片信息失败！", e);
+			}
 		}
 
 		return list;

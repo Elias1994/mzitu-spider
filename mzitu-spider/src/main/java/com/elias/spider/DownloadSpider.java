@@ -70,6 +70,7 @@ public class DownloadSpider {
 			}
 
 		} while (errorTimes < max_error_times);
+		log.error("图片下载失败：{}", info);
 	}
 
 }
